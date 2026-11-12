@@ -1,0 +1,36 @@
+{
+  "expo": {
+    "name": "rental-mobile",
+    "slug": "rental-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "icon": "./assets/expo.icon"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "backgroundImage": "./assets/images/android-icon-background.png",
+        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+      }
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "기자재에 붙은 QR·바코드를 읽기 위해 카메라를 사용합니다."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "프로필 사진을 고르기 위해 사진 보관함을 사용합니다.",
+          "cameraPermission": "프로필 사진을 찍기 위해 카메라를 사용합니다."
+        }
+      ]
+    ]
+  }
+}
