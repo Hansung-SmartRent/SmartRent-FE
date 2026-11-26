@@ -16,10 +16,10 @@ import ReserveScreen from '../screens/ReserveScreen';
 import MyPageScreen from '../screens/MyPageScreen';
 import ScanScreen, { PhotoResultScreen } from '../screens/ScanScreen';
 import AssistantScreen from '../screens/AssistantScreen';
-import { LoginScreen, SignupScreen, PasswordScreen, ResubmitScreen } from '../screens/AuthScreens';
+import { LoginScreen, SignupScreen, PasswordScreen, ResubmitScreen, StaffWaitScreen } from '../screens/AuthScreens';
 import { RentalsScreen, RentalDetailScreen } from '../screens/RentalScreens';
 import { InquiryScreen, PurchaseScreen, NotificationsScreen, NotificationSettingsScreen, WarningsScreen, ProfileScreen, EmailChangeScreen } from '../screens/SupportScreens';
-import {AdminDashboard,AdminRentalsScreen,AdminHandoffScreen,AdminWalkIn,AdminCorrectionScreen,AdminStudentsScreen,AdminStudentDetail,AdminEquipmentScreen,AdminModelEdit,AdminNoticesScreen,AdminNoticeEdit,AdminStatsScreen,AdminRequestsScreen,AdminOperationsScreen,AdminModelHours,AdminAuditScreen,AdminReturnLookup,AdminReturnCorrection} from '../screens/AdminScreens';
+import {AdminDashboard,AdminRentalsScreen,AdminHandoffScreen,AdminWalkIn,AdminCorrectionScreen,AdminStudentsScreen,AdminStudentDetail,AdminEquipmentScreen,AdminModelEdit,AdminNoticesScreen,AdminNoticeEdit,AdminStatsScreen,AdminRequestsScreen,AdminOperationsScreen,AdminModelHours,AdminAuditScreen,AdminReturnLookup,AdminReturnCorrection,AdminStaffScreen} from '../screens/AdminScreens';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -30,17 +30,18 @@ const studentTabs = [['Home','홈','home-outline',HomeScreen],['List','기자재
 const adminTabs = [['AdminHome','홈','grid-outline',AdminDashboard],['AdminRentals','대여','calendar-outline',AdminRentalsScreen],['AdminEquipment','기자재','cube-outline',AdminEquipmentScreen],['AdminStudents','학생','people-outline',AdminStudentsScreen],['My','마이','person-outline',MyPageScreen]];
 
 // 탭 위에 쌓이는 화면 (오른쪽에서 밀려 들어옴)
-const stackScreens = { PhotoResult:PhotoResultScreen, Detail:DetailScreen, Reserve:ReserveScreen, Assistant:AssistantScreen, RentalDetail:RentalDetailScreen, Resubmit:ResubmitScreen, Password:PasswordScreen, Inquiry:InquiryScreen, Purchase:PurchaseScreen, Notifications:NotificationsScreen, NotificationSettings:NotificationSettingsScreen, Warnings:WarningsScreen, Profile:ProfileScreen, EmailChange:EmailChangeScreen, AdminHandoff:AdminHandoffScreen, AdminWalkIn:AdminWalkIn, AdminCorrection:AdminCorrectionScreen, AdminStudentDetail:AdminStudentDetail, AdminModelEdit:AdminModelEdit, AdminNotices:AdminNoticesScreen, AdminNoticeEdit:AdminNoticeEdit, AdminStats:AdminStatsScreen, AdminRequests:AdminRequestsScreen, AdminOperations:AdminOperationsScreen, AdminModelHours:AdminModelHours, AdminAudit:AdminAuditScreen, AdminReturnLookup:AdminReturnLookup, AdminReturnCorrection:AdminReturnCorrection };
-const stackTitles = { PhotoResult:'분석 결과', Detail:'기자재 상세', Reserve:'대여 신청', Assistant:'기자재 찾기 도우미', RentalDetail:'대여 상세', Resubmit:'학생증 재제출', Password:'비밀번호 변경', Inquiry:'문의하기', Purchase:'구매 요청', Notifications:'알림함', NotificationSettings:'알림 설정', Warnings:'경고 내역', Profile:'내 정보', EmailChange:'학교 이메일 변경', AdminHandoff:'수령 처리', AdminWalkIn:'현장 대여 처리', AdminCorrection:'미수령 정정', AdminStudentDetail:'학생 상세', AdminModelEdit:'모델 관리', AdminNotices:'알림 관리', AdminNoticeEdit:'새 알림', AdminStats:'이용 통계', AdminRequests:'문의 · 구매 요청', AdminOperations:'운영일·시간 변경', AdminModelHours:'운영 시간 변경', AdminAudit:'관리 기록', AdminReturnLookup:'기기 고유 번호로 반납', AdminReturnCorrection:'반납 시간 정정' };
-const adminOnly = ['AdminHandoff','AdminWalkIn','AdminModelHours','AdminCorrection','AdminStudentDetail','AdminModelEdit','AdminNotices','AdminNoticeEdit','AdminStats','AdminRequests','AdminOperations','AdminAudit','AdminReturnLookup','AdminReturnCorrection'];
+const stackScreens = { AdminStaff:AdminStaffScreen, PhotoResult:PhotoResultScreen, Detail:DetailScreen, Reserve:ReserveScreen, Assistant:AssistantScreen, RentalDetail:RentalDetailScreen, Resubmit:ResubmitScreen, Password:PasswordScreen, Inquiry:InquiryScreen, Purchase:PurchaseScreen, Notifications:NotificationsScreen, NotificationSettings:NotificationSettingsScreen, Warnings:WarningsScreen, Profile:ProfileScreen, EmailChange:EmailChangeScreen, AdminHandoff:AdminHandoffScreen, AdminWalkIn:AdminWalkIn, AdminCorrection:AdminCorrectionScreen, AdminStudentDetail:AdminStudentDetail, AdminModelEdit:AdminModelEdit, AdminNotices:AdminNoticesScreen, AdminNoticeEdit:AdminNoticeEdit, AdminStats:AdminStatsScreen, AdminRequests:AdminRequestsScreen, AdminOperations:AdminOperationsScreen, AdminModelHours:AdminModelHours, AdminAudit:AdminAuditScreen, AdminReturnLookup:AdminReturnLookup, AdminReturnCorrection:AdminReturnCorrection };
+const stackTitles = { AdminStaff:'관리자 관리', PhotoResult:'분석 결과', Detail:'기자재 상세', Reserve:'대여 신청', Assistant:'기자재 찾기 도우미', RentalDetail:'대여 상세', Resubmit:'학생증 재제출', Password:'비밀번호 변경', Inquiry:'문의하기', Purchase:'구매 요청', Notifications:'알림함', NotificationSettings:'알림 설정', Warnings:'경고 내역', Profile:'내 정보', EmailChange:'학교 이메일 변경', AdminHandoff:'수령 처리', AdminWalkIn:'현장 대여 처리', AdminCorrection:'미수령 정정', AdminStudentDetail:'학생 상세', AdminModelEdit:'모델 관리', AdminNotices:'알림 관리', AdminNoticeEdit:'새 알림', AdminStats:'이용 통계', AdminRequests:'문의 · 구매 요청', AdminOperations:'운영일·시간 변경', AdminModelHours:'운영 시간 변경', AdminAudit:'관리 기록', AdminReturnLookup:'기기 고유 번호로 반납', AdminReturnCorrection:'반납 시간 정정' };
+const adminOnly = ['AdminStaff','AdminHandoff','AdminWalkIn','AdminModelHours','AdminCorrection','AdminStudentDetail','AdminModelEdit','AdminNotices','AdminNoticeEdit','AdminStats','AdminRequests','AdminOperations','AdminAudit','AdminReturnLookup','AdminReturnCorrection'];
 const studentOnly = ['Reserve','Assistant','Resubmit'];
 
 // 하단 탭 전환: 손가락으로 밀면 화면이 손가락을 따라 옆 탭으로 넘어간다.
 // 탭을 누르면(먼 탭 포함) 중간 화면을 지나가지 않고 바로 바뀌면서 0.15초 동안 부드럽게 나타난다.
 const tabMotion = { last: 0, swiping: false, swipeEndAt: 0 };
 const fadeCache = new Map();
-function withFade(Component, index) {
-  const key = `${index}:${Component.name}`;
+// 화면 구분은 탭 이름으로 한다. 함수 이름은 배포 빌드에서 한두 글자로 압축돼 학생·관리자 화면이 같은 이름이 될 수 있다(계정을 바꾸면 다른 계정 화면이 뜨던 문제)
+function withFade(Component, index, tabName) {
+  const key = tabName;
   if (fadeCache.has(key)) return fadeCache.get(key);
   function FadeScene(props) {
     const o = React.useRef(new Animated.Value(1)).current;
@@ -82,7 +83,7 @@ function MainTabs() {
   const tabs = currentUser?.role === 'admin' ? adminTabs : studentTabs;
   React.useState(() => { tabMotion.last = 0; tabMotion.swiping = false; });
   return <Tab.Navigator tabBarPosition="bottom" tabBar={props => <TabBar {...props} />} screenListeners={{ swipeStart: () => { tabMotion.swiping = true; }, swipeEnd: () => { tabMotion.swiping = false; tabMotion.swipeEndAt = Date.now(); } }} screenOptions={{ swipeEnabled: true, animationEnabled: false, lazy: true, sceneStyle: { backgroundColor: c.bg } }}>
-    {tabs.map(([name, title, icon, component], i) => <Tab.Screen key={name} name={name} component={withFade(component, i)} options={{ title, tabBarIconName: icon }} />)}
+    {tabs.map(([name, title, icon, component], i) => <Tab.Screen key={name} name={name} component={withFade(component, i, name)} options={{ title, tabBarIconName: icon }} />)}
   </Tab.Navigator>;
 }
 
@@ -93,14 +94,16 @@ export default function AppNavigator() {
   const visible = Object.entries(stackScreens).filter(([name]) => role === 'admin' ? !studentOnly.includes(name) : !adminOnly.includes(name));
   return <NavigationContainer key={`${currentUser?.id || 'guest'}-${role || 'guest'}`} ref={navRef}>
     <Stack.Navigator screenOptions={{ headerStyle: { backgroundColor: c.bg }, headerTintColor: c.ink, headerTitleStyle: { fontFamily: FONT.bold }, headerBackButtonDisplayMode: 'minimal', headerBackTitle: '', contentStyle: { backgroundColor: c.bg }, headerShadowVisible: false }}>
-      {currentUser
+      {currentUser?.role === 'staff'
+        ? <Stack.Screen name="StaffWait" component={StaffWaitScreen} options={{ headerShown: false }} />
+        : currentUser
         ? <>
             <Stack.Screen name="Main" component={MainTabs} options={{ headerShown: false }} />
             {visible.map(([name, component]) => <Stack.Screen key={name} name={name} component={component} options={{ title: stackTitles[name] }} />)}
           </>
         : <>
             <Stack.Screen name="Login" component={LoginScreen} options={{ title: '로그인' }} />
-            <Stack.Screen name="Signup" component={SignupScreen} options={{ title: '학생 회원가입' }} />
+            <Stack.Screen name="Signup" component={SignupScreen} options={{ title: '회원가입' }} />
             <Stack.Screen name="Password" component={PasswordScreen} options={{ title: '비밀번호' }} />
           </>}
     </Stack.Navigator>
